@@ -126,6 +126,10 @@ def export_vae_model(
         safe_name = utils.create_safe_name(
             hf_model_name, f"_{height}x{width}_{precision}_vae_{variant}_{device}"
         )
+    with open(f"{safe_name}.mlir", "w+") as f:
+        f.write(module_str)
+    print("Saved to", safe_name + ".mlir")
+
     if compile_to != "vmfb":
         return module_str
     elif os.path.isfile(safe_name + ".vmfb") and exit_on_vmfb:
